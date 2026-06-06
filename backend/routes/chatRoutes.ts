@@ -6,8 +6,15 @@ import {
   getMessagesByConversation,
   touchConversation
 } from "../db/queries";
-// import { generateReply } from "../services/llm";
+import { generateReply } from "../services/llm";
 
+interface Message{
+  id: string;
+  sender: "user" | "ai";
+  text: string;
+  timestamp: string,
+  conversation_id?: string;
+}
 const router = Router();
 
 router.get('/',(req, res) => {
@@ -51,11 +58,13 @@ router.post("/message", async (req: Request, res: Response) => {
   touchConversation(convId);
 
   // --- Get history for LLM ---
-  const history = getMessagesByConversation(convId);
+  const history  = getMessagesByConversation(convId) as  Message[];
 
   // --- Call LLM ---
-//   const reply = await generateReply(history, trimmed);
-     const reply = ` hehe heyooo`
+  const reply = await generateReply(
+    history.map( m  => ({ sender: m.sender, text: m.text })), 
+    trimmed);
+    //  const reply = ` hehe heyooo`
 
   // --- Persist AI reply ---
   insertMessage(convId, "ai", reply);
