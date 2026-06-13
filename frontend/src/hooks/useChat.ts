@@ -13,18 +13,28 @@ export function useChat() {
   );
 
   useEffect(() => {
-    if (!sessionId) return;
+    
     
     fetchHistory(sessionId)
         .then(data => setMessages(data.messages))
         .catch(() => {
-        localStorage.removeItem(SESSION_KEY);
-        setSessionId(null);
-        });
+          if(messages.length === 0){
+            setMessages([{
+              id: '0',
+                sender: "ai",
+                text: "Hi, How may I help you today!",
+                timestamp: new Date().toISOString()
+            }])
+          }
+
+          localStorage.removeItem(SESSION_KEY);
+          
+          setSessionId(null);
+        })
+        
         
     
   }, []);
-
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;

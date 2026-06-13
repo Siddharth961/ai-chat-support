@@ -17,13 +17,6 @@ interface Message{
 }
 const router = Router();
 
-router.get('/',(req, res) => {
-    const id = createConversation()
-    res.send(`hello shreyaaaa ${id}`)
-    console.log(id)
-
-})
-
 const MAX_MESSAGE_LENGTH = 2000;
 
 router.post("/message", async (req: Request, res: Response) => {
@@ -74,7 +67,7 @@ router.post("/message", async (req: Request, res: Response) => {
 
 // Fetch history for a session (for page reload)
 router.get("/history/:sessionId", (req: Request, res: Response) => {
-  const { sessionId } = req.params;
+  const sessionId  = req.params.sessionId as string;
 
   if (!conversationExists(sessionId)) {
     return res.status(404).json({ error: "Session not found." });

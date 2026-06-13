@@ -3,7 +3,6 @@ const BASE = import.meta.env.VITE_API_BASE_URL;
 
 export async function postMessage(message: string, sessionId: string | null) {
 
-    console.log('api called', BASE)
   const res = await fetch(`${BASE}/chat/message`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -15,8 +14,9 @@ export async function postMessage(message: string, sessionId: string | null) {
   return data as { reply: string; sessionId: string };
 }
 
-export async function fetchHistory(sessionId: string) {
+export async function fetchHistory(sessionId: string | null) {
   const res = await fetch(`${BASE}/chat/history/${sessionId}`);
+  
   if (!res.ok) throw new Error('Session not found.');
 
   const data  = await res.json();
