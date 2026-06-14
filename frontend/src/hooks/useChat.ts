@@ -63,7 +63,7 @@ export function useChat() {
       };
       setMessages(prev => [...prev, aiMsg]);
     } catch (err: any) {
-      setError('');
+      setError('Some error occured! please try some time later.');
     } finally {
       setIsLoading(false);
     }
