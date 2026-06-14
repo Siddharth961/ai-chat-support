@@ -167,6 +167,5 @@ The last 10 messages of conversation history are included with each request so r
 
 ### If I had more time
 
-- **Stream responses** —  stream the LLM reply token by token, so the UI feels more alive instead of waiting for the full response
 - **Move store knowledge to DB** — so it can be updated without touching code
 - **Better error recovery** — retry logic on transient LLM failures (timeouts, 503s) before surfacing an error to the user
